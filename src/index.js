@@ -1,17 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+
+import TodoTitle from "./components/todo-title";
+import TodoSearch from "./components/todo-search";
+import TodoList from "./components/todo-list";
+
+const TodoElement = () => {
+  return (
+  <div className="todo">
+    <TodoTitle />
+    <TodoSearch />
+    <TodoList />
+  </div>
+  );
+}
+  
+ 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+root.render(<TodoElement />);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
