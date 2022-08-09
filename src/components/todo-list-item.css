@@ -1,0 +1,16 @@
+.todo-list-icon > button {
+    background-color: transparent;
+}
+
+.todo-list-icon > button:first-child {
+    margin-right: 5px;
+    color: rgb(146, 30, 10);
+}
+
+.todo-list-icon > button:last-child {
+    color: #198754;
+}
+
+.todo-list-icon > button:first-child:focus, .todo-list-icon > button:first-child:hover, .todo-list-icon > button:last-child:hover, .todo-list-icon > button:last-child:focus{
+    color: #fff;
+}
