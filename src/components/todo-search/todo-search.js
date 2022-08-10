@@ -1,5 +1,4 @@
 import React from "react";
-import TodoFilter from "./todo-filter";
 
 import './todo-search.css';
 
