@@ -14,3 +14,14 @@
 .todo-list-icon > button:first-child:focus, .todo-list-icon > button:first-child:hover, .todo-list-icon > button:last-child:hover, .todo-list-icon > button:last-child:focus{
     color: #fff;
 }
+
+
+.todo-list-items.done {
+    text-decoration: line-through;  
+}
+
+.todo-list-items.important {
+    color: steelblue;
+    font-weight: bold;
+}
+
