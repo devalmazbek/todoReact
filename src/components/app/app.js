@@ -19,9 +19,9 @@ export default class App extends Component {
 
     this.state = {
       todoItems: [
-        {label: 'Drink Coffe', important: false, id: 1}, 
-        {label: 'Build Awesome App', important: false, id: 2}, 
-        {label: 'Build React App', important: false, id: 3}, 
+        {label: 'Drink Coffe', important: false, done: false, id: 1}, 
+        {label: 'Build Awesome App', important: false, done: false, id: 2}, 
+        {label: 'Build React App', important: false, done: false, id: 3}, 
       ]
     };
 
@@ -45,15 +45,14 @@ export default class App extends Component {
   addTodoItem = (text) => {
     this.setState( ({ todoItems })  => {
       let lastIndex = todoItems.length;
-      lastIndex++
-      const newTodoItems = [ ...todoItems.slice()];
+      
       const newItem = {
         label: text,
         important: false,
-        id: lastIndex,
+        id: ++lastIndex,
       }
-      newTodoItems.push(newItem);
-      console.log(todoItems);
+
+      const newTodoItems = [ ...todoItems.slice(), newItem];
       return {
         todoItems: newTodoItems
       }
@@ -61,22 +60,66 @@ export default class App extends Component {
   };
 
    // onToggle important list item
-   onImportantItem = (id) => {
-    console.log('item', id);
+   onDoneItem = (id) => {
+    // console.log('item', id);
+
+    this.setState(({todoItems}) => {
+      const index = todoItems.findIndex((item) => item.id ===   id);
+
+      const oldItem = todoItems[index];
+      const newItem = { ...oldItem, done: !oldItem.done};
+
+      const newArray = [
+        ...todoItems.slice(0, index),
+        newItem,
+        ...todoItems.slice(index + 1)
+      ]
+      
+      return {
+        todoItems: newArray
+      }
+    });
+
+  };
+
+  onImportantItem = (id) => {
+    this.setState(({todoItems}) => {
+      const index = todoItems.findIndex((item) => item.id ===   id);
+
+      const oldItem = todoItems[index];
+      const newItem = { ...oldItem, important: !oldItem.important};
+
+      const newArray = [
+        ...todoItems.slice(0, index),
+        newItem,
+        ...todoItems.slice(index + 1)
+      ]
+      
+      return {
+        todoItems: newArray
+      }
+    });
   }
 
-  onDoneItem = (id) => {
-    console.log('done', id);
+  todoFilterItem = (e) => {
+    const { todoItems } = this.state;
+    const {label} = {...todoItems, label};
+    console.log(label);
+
   }
   
 
   render() {
+    const todoDone = this.state.todoItems.filter((element) => element.done).length;
+    
+    const todoCount = this.state.todoItems.length - todoDone;
+
     return (
       <div className="todo">
-        <TodoTitle />
+        <TodoTitle todoCount={todoCount} todoDone={todoDone}/>
     
         <div className="todo-search-bar d-flex justify-content-between">
-          <TodoSearch />
+          <TodoSearch onFilter={ this.todoFilterItem }/>
           <TodoStatus />
         </div>
         
