@@ -19,10 +19,11 @@ export default class App extends Component {
 
     this.state = {
       todoItems: [
-        {label: 'Drink Coffe', important: false, done: false, id: 1}, 
+        {label: 'Drink Coffee', important: false, done: false, id: 1}, 
         {label: 'Build Awesome App', important: false, done: false, id: 2}, 
         {label: 'Build React App', important: false, done: false, id: 3}, 
-      ]
+      ],
+      term: ''
     };
 
   };
@@ -107,23 +108,43 @@ export default class App extends Component {
     console.log(label);
 
   }
+
+  onSearchChange = (term) => {
+    this.setState({ term });
+  }
+
+  search = (items, term) => {
+    if(term.length === 0) {
+      return items;
+    }
+
+    return (items.filter((item) => {
+      return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    }) );
+  }
   
 
   render() {
-    const todoDone = this.state.todoItems.filter((element) => element.done).length;
+    const {todoItems, term} = this.state;
+
+    const todoDone = todoItems.filter((element) => element.done).length;
     
-    const todoCount = this.state.todoItems.length - todoDone;
+    const todoCount = todoItems.length - todoDone;
+
+    const visibleItem = this.search(todoItems, term);
 
     return (
       <div className="todo">
         <TodoTitle todoCount={todoCount} todoDone={todoDone}/>
     
         <div className="todo-search-bar d-flex justify-content-between">
-          <TodoSearch onFilter={ this.todoFilterItem }/>
+          <TodoSearch onFilter={ this.todoFilterItem }
+          onSearchChange={this.onSearchChange}/>
           <TodoStatus />
         </div>
         
-        <TodoList todo={this.state.todoItems}
+        <TodoList 
+        todo={visibleItem}
         onDeleted = { this.deleteItem }
         onImportantItem = { this.onImportantItem }
         onDoneItem = { this.onDoneItem }/>
